@@ -58,14 +58,11 @@ function calculIter(x, y) {
 function getColor(iter) {
     if (iter[0] == maxIter)
         return ([0, 0, 0]);
-    var c = [];
-    var s = Math.sqrt(iter[1] + iter[2]);
-    var smoothed = Math.log(Math.log(s) * ONE_OVER_LOG2) * ONE_OVER_LOG2;
-    if (isNaN(smoothed))
-        smoothed = 0.0;
-    var colorIndex = (Math.sqrt(iter[0] + 1 - smoothed) * 255) % mapcolor.length;
-    var colorI = Math.floor(colorIndex);
-    return (mapcolor[colorI]);
+    var c = Math.log(Math.log(Math.sqrt(iter[1] + iter[2])) * ONE_OVER_LOG2) * ONE_OVER_LOG2;
+    if (isNaN(c))
+        c = 0.0;
+    c = (Math.sqrt(iter[0] + 1 - c) * 255) % mapcolor.length;
+    return (mapcolor[Math.floor(c)]);
 }
 
 function renderFractal() {
