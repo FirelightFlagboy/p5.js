@@ -1,6 +1,6 @@
 const ONE_OVER_LOG2 = 1.0 / Math.log(2.0);
 var maxIter = 256;
-var infi = 64.0;
+var infi = 16.0;
 
 var x1 = -2.5;
 var x2 = 2.5;
@@ -47,7 +47,7 @@ function calculIter(x, y) {
     var Ti = 0.0;
     var i = 0;
     for (; i < maxIter && (Tr + Ti) <= infi; ++i) {
-        Zi = 2 * Zr * Zi + Ci
+        Zi = 2.0 * Zr * Zi + Ci;
         Zr = Tr - Ti + Cr;
         Tr = Zr * Zr;
         Ti = Zi * Zi;
