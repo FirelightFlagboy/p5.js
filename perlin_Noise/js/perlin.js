@@ -1,59 +1,48 @@
-var rows, cols;
-var scl = 20;
-var swi = true;
-var angle = 0;
+let rows, cols;
+let angle = 0;
+let scl = 25;
+let mul = 200;
+let noiseScl = 0.01;
+let dcl = 5;
+let cvs;
+let sy = 0;
+let sx = 0;
+let swi = true;
+const FRAME = 30;
+const ONE_LOOP = false;
 
 function setup() {
     createCanvas(600, 600, WEBGL);
-    pixelDensity(1);
-    var w = 400;
-    var h = 400;
-    cols = w / scl;
-    rows = h / scl;
-    frameRate(5);
-}
-
-function myRect(x, y, w, h) {
-    stroke(255);
-    line(x, y, x + w, y);
-    line(x, y, x, y + h);
-    line(x, y + h, w + h, y + h);
-    line(x + w, y, x + w, y + h);
+    frameRate(FRAME);
+    noStroke();
 }
 
 function draw() {
     background(0);
-    stroke(255);
-    noFill();
-    // beginShape(TRIANGLE_STRIP);
-    // vertex(0, 0);
-    // vertex(0, scl);
-    // vertex(scl, 0);
-    // vertex(0, 0);
-    // endShape();
-    translate(-width / 3, 0);
-    rotateX(angle);
-    angle += 0.03;
-    for (y = 0; y < rows; y++) {
-        beginShape(TRIANGLE_STRIP);
-        for (x = 0; x < cols; x++) {
-            var h1 = random(0, 10);
-            var h2 = random(0, 10);
-            vertex(x * scl, y * scl, h1);
-            vertex(x * scl, (y + 1) * scl, h2);
-            // vertex((x + 1) * scl, y * scl);
-            // vertex(x * scl, y * scl, h);
+    rotateX(-PI / 8);
+    pointLight(250, 250, 250, 191, -184, 100);
+    for (y = 0; y < height + 77; y += scl) {
+        for (x = 0; x < width; x += scl) {
+            push();
+            let h = floor(noise((sx + x) * noiseScl, (sy + y) * noiseScl) * mul);
+            translate(x - width / 2, 0, y - height / 2);
+            ambientMaterial(250);
+            box(scl, h, scl);
+            pop();
         }
-        endShape();
     }
+    if (ONE_LOOP)
+        noLoop();
+    sy -= scl;
 }
 
 function mousePressed() {
-    if (swi) {
-        swi = false;
+    if (swi == true) {
+        swi = false
+        console.log("stop");
         frameRate(0);
     } else {
         swi = true;
-        frameRate(5);
+        frameRate(FRAME);
     }
 }
