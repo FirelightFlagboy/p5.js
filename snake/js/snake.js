@@ -15,6 +15,18 @@ function Snake(x, y, xSpeed, ySpeed) {
 	this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;
 
+	this.pickFoodLocation = function() {
+		let x = floor(random(0, cols));
+		let y = floor(random(0, rows));
+		return (createVector(x * scl, y * scl));
+	}
+
+	this.eat = function(food) {
+		if (s.x == food.x && s.y == food.y)
+			return (true);
+		return (false);
+	}
+
 	this.dir = function(xSpeed, ySpeed) {
 		if (this.s.length > 1) {
 			if (this.ySpeed == -1 && ySpeed == 1) //0,-1	up
@@ -32,16 +44,13 @@ function Snake(x, y, xSpeed, ySpeed) {
 
 	this.grow = function() {
 		this.len++;
-		console.log("grow: " + this.len);
 	}
 
 	this.death = function() {
-		if (this.s.length > 1) {
-			for (var i = 0; i < this.s.length - 1; i++) {
-				if (this.s[i].x == this.x && this.s[i].y == this.y) {
-					console.log(i + ": :" + this.s[i]);
-					return (true);
-				}
+		for (var i = 0; i < this.s.length - 1; i++) {
+			if (this.s[i].x == this.x && this.s[i].y == this.y) {
+				console.log(i + ": :" + this.s[i]);
+				return (true);
 			}
 		}
 		return (false);

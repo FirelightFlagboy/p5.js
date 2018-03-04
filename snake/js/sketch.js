@@ -13,14 +13,10 @@ function setup() {
 
 	s = new Snake(cols / 2, rows / 2, 1, 0);
 	frameRate(10);
-	pickLocation();
+	food = s.pickFoodLocation();
 }
 
-function pickLocation() {
-	let x = floor(random(0, cols));
-	let y = floor(random(0, rows));
-	food = createVector(x * scl, y * scl);
-}
+
 
 function keyPressed() {
 	switch (keyCode) {
@@ -52,12 +48,6 @@ function mousePressed() {
 	s.grow();
 }
 
-function checkFood() {
-	if (s.x == food.x && s.y == food.y)
-		return (true);
-	return (false);
-}
-
 function draw() {
 	background(0);
 	s.update();
@@ -70,9 +60,9 @@ function draw() {
 		frameRate(0);
 	}
 	s.show();
-	if (checkFood() == true) {
+	if (s.eat(food) == true) {
 		s.grow();
-		pickLocation();
+		food = s.pickFoodLocation();
 	}
 	fill(255, 0, 150);
 	rect(food.x, food.y, scl, scl);
